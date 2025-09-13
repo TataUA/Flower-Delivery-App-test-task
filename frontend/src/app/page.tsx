@@ -1,10 +1,10 @@
-import Image from "next/image";
+import { Banner } from "@/components/Banner";
 
 export default function Home() {
   return (
-    <div className="">
-      <main className=""></main>
-      <footer className=""></footer>
-    </div>
+    <>
+      <Banner />
+      <section className="min-h-screen bg-white rounded-b-xl"></section>
+    </>
   );
 }
