@@ -1,5 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
+import shopRouter from "./routes/shopRoutes";
+import userRouter from "./routes/userRoutes";
+import orderRouter from "./routes/orderRouts";
 
 interface IError {
   status?: number;
@@ -11,9 +14,9 @@ export const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Flower backend API is running");
-});
+app.use("/api/shops", shopRouter);
+app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: "Not found" });
