@@ -37,6 +37,8 @@ export const ProductsList = () => {
             products.map((product) => (
               <li key={product._id}>
                 <ProductCard
+                  _id={product._id}
+                  shopId={product.shopId}
                   name={product.name}
                   price={product.price}
                   imageUrl={product.imageUrl}
