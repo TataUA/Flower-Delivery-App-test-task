@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import shopRouter from "./routes/shopRoutes";
+import productRouter from "./routes/productRouts";
 import userRouter from "./routes/userRoutes";
 import orderRouter from "./routes/orderRouts";
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/shops", shopRouter);
+app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/orders", orderRouter);
 
