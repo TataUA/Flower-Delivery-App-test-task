@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { useStore } from "@/services/state";
+import toast, { Toaster } from "react-hot-toast";
+import { createOrder, getProductsByIds } from "@/services/api";
 import { Contacts } from "./Contacts";
 import { CartList } from "./CartList";
 import { IProduct } from "@/types/types";
-import { createOrder, getProductsByIds } from "@/services/api";
 
 export interface IProductWithQuantity extends IProduct {
   quantity: number;
@@ -64,10 +65,39 @@ export const CartForm = () => {
 
     try {
       const response = await createOrder({ user: formData, items: orderItems });
-      console.log("Orders created:", response.orderIds);
+
+      if (response?.orderIds?.length) {
+        if (response.orderIds.length === 1) {
+          toast.success(
+            `Your order has been created. Order ID: ${response.orderIds[0]}`,
+            {
+              duration: Infinity,
+            }
+          );
+        } else {
+          toast.success(
+            `Your orders have been created from different shops. Order IDs: ${response.orderIds.join(
+              ", "
+            )}`,
+            {
+              duration: Infinity,
+            }
+          );
+        }
+      }
+
       clearCart();
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+      });
     } catch (err) {
       console.error("Order failed", err);
+      toast.error("Failed to create order. Please try again.", {
+        duration: Infinity,
+      });
     }
   };
 
@@ -101,6 +131,8 @@ export const CartForm = () => {
           </button>
         </div>
       </form>
+
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };
