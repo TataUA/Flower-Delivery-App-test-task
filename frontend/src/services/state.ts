@@ -1,12 +1,11 @@
 import { create } from "zustand";
-import { IShop, IProduct, IOrder, ICartItem } from "@/types/types";
+import { IShop, IProduct, ICartItem } from "@/types/types";
 
 interface StoreState {
   shops: IShop[];
   activeShopId: string;
   productsByShop: Record<string, IProduct[]>;
   cart: ICartItem[];
-  orders: IOrder[];
 
   setShops: (shops: IShop[]) => void;
   setActiveShop: (id: string) => void;
@@ -14,7 +13,6 @@ interface StoreState {
   addToCart: (item: Omit<ICartItem, "quantity">) => void;
   decreaseFromCart: (productId: string) => void;
   clearCart: () => void;
-  setOrders: (orders: IOrder[]) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -70,5 +68,4 @@ export const useStore = create<StoreState>((set) => ({
     }),
 
   clearCart: () => set({ cart: [] }),
-  setOrders: (orders) => set({ orders }),
 }));

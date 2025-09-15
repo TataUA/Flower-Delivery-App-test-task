@@ -33,10 +33,3 @@ export interface ICreateOrderResponse {
   message: string;
   orderIds: string[];
 }
-
-export interface IOrder {
-  _id: string;
-  productId: string;
-  quantity: number;
-  createdAt: string;
-}
