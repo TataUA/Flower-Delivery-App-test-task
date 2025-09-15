@@ -2,7 +2,7 @@ import React from "react";
 import { IProductWithQuantity } from "./CartForm";
 import { CartItem } from "./CartItem";
 
-interface CartListProps {
+export interface CartListProps {
   products: IProductWithQuantity[];
 }
 
