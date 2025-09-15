@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Types } from "mongoose";
 import { User, Product, IOrderItem, Order, IUser } from "../models";
 
 export interface IRequestOrder {
@@ -52,7 +53,11 @@ export const createOrder = async (req: Request, res: Response) => {
 
       const order = await Order.create({
         userId: existingUser._id,
-        items: shopItems,
+        items: shopItems.map((i) => ({
+          productId: new Types.ObjectId(i.productId),
+          shopId: new Types.ObjectId(i.shopId),
+          quantity: i.quantity,
+        })),
         totalPrice,
       });
 
