@@ -11,15 +11,32 @@ export interface IProduct {
   imageUrl: string;
 }
 
+export interface ICartItem {
+  shopId: string;
+  productId: string;
+  quantity: number;
+}
+
+export interface IUser {
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
+export interface ICreateOrderRequest {
+  user: IUser;
+  items: ICartItem[];
+}
+
+export interface ICreateOrderResponse {
+  message: string;
+  orderIds: string[];
+}
+
 export interface IOrder {
   _id: string;
   productId: string;
   quantity: number;
   createdAt: string;
-}
-
-export interface ICartItem {
-  shopId: string;
-  productId: string;
-  quantity: number;
 }
