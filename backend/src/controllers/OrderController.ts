@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { User, Product, IOrderItem, Order } from "../models";
-import { Types } from "mongoose";
+import { User, Product, IOrderItem, Order, IUser } from "../models";
 
 export interface IRequestOrder {
-  userId: string;
+  user: IUser;
   items: IOrderItem[];
 }
 
@@ -18,18 +17,22 @@ const groupByShop = (items: IOrderItem[]): Record<string, IOrderItem[]> => {
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
-    const { userId, items }: IRequestOrder = req.body;
+    const { user, items }: IRequestOrder = req.body;
 
-    if (!userId || !items || !items.length) {
-      return res.status(400).json({ message: "userId and items are required" });
+    if (!user || !user.email || !user.phone || !items || !items.length) {
+      return res
+        .status(400)
+        .json({ message: "Email, phone and items are required" });
     }
 
-    if (!Types.ObjectId.isValid(userId)) {
-      return res.status(400).json({ message: "Invalid userId" });
-    }
+    let existingUser = await User.findOne({
+      email: user.email,
+      phone: user.phone,
+    });
 
-    const userExists = await User.findById(userId);
-    if (!userExists) return res.status(404).json({ message: "User not found" });
+    if (!existingUser) {
+      existingUser = await User.create(user);
+    }
 
     const grouped = groupByShop(items);
     const orders = [];
@@ -48,7 +51,7 @@ export const createOrder = async (req: Request, res: Response) => {
       }
 
       const order = await Order.create({
-        userId,
+        userId: existingUser._id,
         items: shopItems,
         totalPrice,
       });
