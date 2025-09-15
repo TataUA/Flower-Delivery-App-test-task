@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useStore } from "@/services/state";
-import { IProductWithQuantity } from "./CartList";
+import { IProductWithQuantity } from "./CartForm";
 
 interface CartItemProps {
   product: IProductWithQuantity;
