@@ -27,7 +27,7 @@ export const ProductCard = ({
         {name}
       </h3>
       <div className="flex justify-between items-center w-full">
-        <p className="text-[var(--brown)] font-bold">{`Price: $${price}`}</p>
+        <p className=" font-bold">{`Price: $${price}`}</p>
         <button
           type="button"
           onClick={() => addToCart({ shopId, productId: _id })}

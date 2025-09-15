@@ -1,4 +1,9 @@
-import { IProduct, IShop } from "@/types/types";
+import {
+  ICreateOrderRequest,
+  ICreateOrderResponse,
+  IProduct,
+  IShop,
+} from "@/types/types";
 import axios from "axios";
 
 const instance = axios.create({
@@ -8,7 +13,6 @@ const instance = axios.create({
 export const getShops = async () => {
   try {
     const { data } = await instance.get<IShop[]>("/api/shops");
-    //console.log(data);
     return data;
   } catch (error) {
     console.error("Failed to load shops:", error);
@@ -18,11 +22,36 @@ export const getShops = async () => {
 
 export const getProductsByShop = async (id: string) => {
   try {
-    const {data} = await instance.get<IProduct[]>(`/api/products/${id}`);
-    console.log(data);
+    const { data } = await instance.get<IProduct[]>(`/api/products/${id}`);
     return data;
   } catch (error) {
-    console.error("Failed to load shops:", error);
+    console.error("Failed to load products by shop:", error);
     return [];
+  }
+};
+
+export const getProductsByIds = async (productIds: string[]) => {
+  try {
+    const { data } = await instance.post<IProduct[]>(
+      `/api/products/products-by-id`,
+      { productIds }
+    );
+    return data;
+  } catch (error) {
+    console.error("Failed to load products by ids:", error);
+    return [];
+  }
+};
+
+export const createOrder = async ({ user, items }: ICreateOrderRequest) => {
+  try {
+    const { data } = await instance.post<ICreateOrderResponse>(`/api/orders`, {
+      user,
+      items,
+    });
+    return data;
+  } catch (error) {
+    console.error("Failed to create order:", error);
+    throw error;
   }
 };

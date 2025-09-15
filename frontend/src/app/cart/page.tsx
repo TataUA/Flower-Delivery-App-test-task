@@ -1,12 +1,13 @@
-
-//import { useStore } from "@/services/state";
 import React from "react";
+import { CartForm } from "@/components/CartForm";
 
 const page = () => {
-//const {cart} = useStore()
-
   return (
-    <div>cart</div>
+    <>
+      <section>
+        <CartForm />
+      </section>
+    </>
   );
 };
 
